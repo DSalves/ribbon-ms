@@ -10,5 +10,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface PagarMe {
 
 	@GetMapping(value="/pagarme/servico")
-	public String parser(@RequestParam("msg") String msg) ;
+	public String parser(@RequestParam(name="msg", required=false) String msg) ;
 }
