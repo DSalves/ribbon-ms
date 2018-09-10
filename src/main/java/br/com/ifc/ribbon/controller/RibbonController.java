@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.ifc.ribbon.client.PagarMe;
 
 @RestController
-@RequestMapping("/ribbon")
 @RefreshScope
+@RequestMapping("/ribbon")
 public class RibbonController {
 
 	@Autowired
