@@ -83,6 +83,13 @@
 	</dependencyManagement>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -103,7 +110,7 @@
 				<configuration>
 					<imageName>ribbon-ms</imageName>
 					<baseImage>openjdk:8-jdk-alpine</baseImage>
-					<entryPoint> ["java", "-Djava.security.egd=file:/dev/./urandom","-jar","/ribbon-ms-ms.jar"]
+					<entryPoint> ["java", "-Djava.security.egd=file:/dev/./urandom","-jar","/${project.build.finalName}.jar"]
 					</entryPoint>
 					<resources>
 						<resource>
@@ -113,13 +120,36 @@
 						</resource>
 					</resources>
 					<imageTags>
-						<imageTag>${project.version}</imageTag>
-						<imageTag>latest</imageTag>
+						<imageTag>${project.version}</imageTag>						
 					</imageTags>
 				</configuration>
 			</plugin>
 			
 		</plugins>
 	</build>
+	
+	<profiles>
+		<profile>
+			<id>env-dev</id>
+			<properties>
+				<activatedProperties>dev</activatedProperties>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>env-hom</id>
+			<properties>
+				<activatedProperties>hom</activatedProperties>
+			</properties>
+		</profile>
+		<profile>
+			<id>env-prd</id>
+			<properties>
+				<activatedProperties>prd</activatedProperties>
+			</properties>
+		</profile>
+	</profiles>
 	
 </project>
