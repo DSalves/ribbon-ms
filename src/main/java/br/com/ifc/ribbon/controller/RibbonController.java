@@ -1,5 +1,7 @@
 package br.com.ifc.ribbon.controller;
 
+import java.net.InetAddress;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -29,7 +31,17 @@ public class RibbonController {
 	public String parser(@RequestParam(name="msg", required=false) String msg) {
 
 		int porta = Integer.parseInt(environment.getProperty("local.server.port"));
-		return proxy.parser(msg) + " {Ribbon Porta:" + porta + ", Mensagem: " + message + "}";
+		String ip = environment.getProperty("local.server.ip");
+		
+		if(ip == null) {
+			try {
+				ip = InetAddress.getLocalHost().getHostName();			
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}	
+		
+		return proxy.parser(msg) + " {Ribbon Ip:" + ip + ", Porta:" + porta + ", Mensagem: " + message + "}";
 	}
 
 }
