@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +29,7 @@ public class RibbonController {
     private String message;
 
 	@GetMapping("/parser")
-	public String parser(@RequestParam(name="msg", required=false) String msg) {
+	public String parser(@RequestParam(name="msg", required=false) String msg, @RequestHeader(value="Authorization") String authToken) {
 
 		int porta = Integer.parseInt(environment.getProperty("local.server.port"));
 		String ip = environment.getProperty("local.server.ip");
@@ -41,7 +42,7 @@ public class RibbonController {
 			}
 		}	
 		
-		return proxy.parser(msg) + " {Ribbon Ip:" + ip + ", Porta:" + porta + ", Mensagem: " + message + "}";
+		return proxy.parser(authToken, msg) + " {Ribbon Ip:" + ip + ", Porta:" + porta + ", Mensagem: " + message + "}";
 	}
 
 }

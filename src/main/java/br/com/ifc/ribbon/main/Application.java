@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableFeignClients("br.com.ifc.ribbon.client")
-@ComponentScan(basePackages="br.com.ifc.ribbon.controller")
+@ComponentScan(basePackages= {"br.com.ifc.ribbon.config", "br.com.ifc.ribbon.controller", "br.com.ifc.ribbon.filter"})
 @EnableDiscoveryClient
 public class Application {
 
