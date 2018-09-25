@@ -2,6 +2,8 @@ package br.com.ifc.ribbon.controller;
 
 import java.net.InetAddress;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -19,6 +21,8 @@ import br.com.ifc.ribbon.client.PagarMe;
 @RefreshScope
 @RequestMapping("/ribbon")
 public class RibbonController {
+	
+	private final static Logger LOGGER = LoggerFactory.getLogger(RibbonController.class);
 
 	@Autowired
 	private PagarMe proxy;
@@ -44,7 +48,11 @@ public class RibbonController {
 			}
 		}	
 		
-		return proxy.parser(authToken, msg) + " {Ribbon Ip:" + ip + ", Porta:" + porta + ", Mensagem: " + message + "}";
+		String resposta = proxy.parser(authToken, msg) + " {Ribbon Ip:" + ip + ", Porta:" + porta + ", Mensagem: " + message + "}";
+		
+		LOGGER.info("Request of Ribbon Service with answer " + resposta + "!");
+		
+		return resposta;
 	}
 
 }
